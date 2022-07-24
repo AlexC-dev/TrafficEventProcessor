@@ -5,3 +5,5 @@ The resulting jar should be in `./target`
 
 Run the application by executing the following command:  
 `java -jar TrafficEventProcessor-1.0.0-SNAPSHOT.jar`
+
+Requires Java 11.
