@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+actor User
+participant EventController
+participant EventService
+participant EventProcessor
+participant ViolationService
+database ViolationRepository
+database EventRepository
+
+== Process Event ==
+
+User -> EventController ++ : POST event to /api/v1/event
+EventController -> EventService ++ : Add event
+EventService -> EventProcessor: Find eligible processor
+opt Eligible processor found
+EventService -> EventProcessor ++ : Is the event a violation
+return Violation or not
+opt Event is violation
+    EventService -> EventProcessor ++ : Get fine for event
+    return Fine
+    EventService -> ViolationService ++ : Create violation
+    ViolationService -> ViolationRepository ++ : Add violation
+    return Added violation
+    return
+end
+EventService -> EventService: Mark event as processed
+else
+EventService -> EventService: Mark event as unprocessed
+end
+EventService -> EventRepository ++ : Add event
+return Added event
+return Added event
+return Added event
+
+@enduml

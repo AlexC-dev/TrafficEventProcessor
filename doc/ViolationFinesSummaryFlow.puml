@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant ViolationController
+participant ViolationService
+database ViolationRepository
+
+== Query Fines Summary ==
+
+User -> ViolationController ++ : GET /api/v1/violations/fines
+ViolationController -> ViolationService ++ : Get fines summary
+ViolationService -> ViolationRepository ++ : Get all fines
+return All fines
+ViolationService -> ViolationService: Calculate summary
+return Fines summary
+return Fines summary
+
+@enduml
